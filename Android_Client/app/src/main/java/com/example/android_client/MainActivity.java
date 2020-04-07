@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    void connectServer(View v){
+    public void connectServer(View v){
         EditText ipv4AddressView = findViewById(R.id.IPAddress);
         String ipv4Address = ipv4AddressView.getText().toString();
         EditText portNumberView = findViewById(R.id.portNumber);
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         String postBodyText="Hello";
         MediaType mediaType = MediaType.parse("text/plain; charset=utf-8");
         RequestBody postBody = RequestBody.create(mediaType, postBodyText);
-
         postRequest(postUrl, postBody);
     }
 
