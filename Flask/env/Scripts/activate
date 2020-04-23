@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\snair\Documents\IOTapp\Flask\env"
+VIRTUAL_ENV="C:\Users\snair\Documents\IOT_Android_Flask\Flask\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

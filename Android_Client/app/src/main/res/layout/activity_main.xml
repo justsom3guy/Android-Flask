@@ -4,6 +4,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgPath"
+        android:hint="Image Path Appears Here"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Image(s)"
+        android:onClick="selectImage"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Image Selected."
+        android:id="@+id/numSelectedImages"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="#988734"/>
 
 
 
@@ -23,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/IPAddress"
+            android:text="192.168.29.4"
             android:singleLine="true"
             android:textStyle="bold"/>
     </LinearLayout>
