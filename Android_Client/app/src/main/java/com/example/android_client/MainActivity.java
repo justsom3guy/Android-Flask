@@ -1,8 +1,10 @@
 package com.example.android_client;
 
+import android.Manifest;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,7 +20,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,15 +38,24 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
+
+    int REQUEST_PERMISSION;
     String selectedImagePath;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
+
+            return;
+        }
     }
 
-    void connectServer(View v){
+    public void connectServer(View v){
         EditText ipv4AddressView = findViewById(R.id.IPAddress);
         String ipv4Address = ipv4AddressView.getText().toString();
         EditText portNumberView = findViewById(R.id.portNumber);
@@ -53,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         // Read BitMap by file path
         Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath, options);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] byteArray = stream.toByteArray();
 
         RequestBody postBodyImage = new MultipartBody.Builder()
@@ -216,6 +230,17 @@ public class MainActivity extends AppCompatActivity {
 
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+    @Override
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted.
+            } else {
+                // User refused to grant permission.
+            }
+        }
     }
 }
 
